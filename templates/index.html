@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Fire Lady</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+<body>
+    <header>
+        <h1>Fire Lady</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Головна</a></li>
+                <li><a href="/catalog">Каталог</a></li>
+                <li><a href="/checkout">Кошик</a></li>
+                <li><a href="/reviews">Відгуки</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="container">
+        <h2>Про наші свічки</h2>
+        <p>Наші свічки виготовляються з натурального воску, вони створюють затишок і мають приємний аромат.</p>
+        <h3>Композиції зі свічками:</h3>
+            {% for comp in compositions %}
+                <div class="container text-center mb-4">
+                    <p class="mb-1">Композиція {{ loop.index }}</p>
+                        <img src="{{ url_for('static', filename='compositions/' + comp) }}" alt="{{ comp.title }}" class="img-fluid rounded" width="300">
+                </div>
+            {% endfor %}
+
+    </section>
+</body>
+</html>

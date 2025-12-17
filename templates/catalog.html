@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Каталог свічок</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <header>
+        <h1>Каталог</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Головна</a></li>
+                <li><a href="/checkout">Кошик</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="products">
+        <h2>Наші свічки</h2>
+        {% for product in products %}
+            <div class="product">
+                <img src="{{ url_for('static', filename='images/' + product.image) }}" class="img-fluid rounded" width="100">
+                <p id="product-title-{{ product.id }}"></p>
+                <p>{{ product.price }} грн</p>
+                <div class="input-group w-50">
+                    <input type="number" name="quantity-{{ product.id }}" min="1" value="1" class="form-control">
+                    <span class="input-group-text">шт.</span>
+                </div>
+
+
+                <!-- Форма вибору кольору -->
+                <form class="color-selection">
+                    <label>Оберіть колір:</label>
+                    {% for hex, namec in colors.items() %}
+                        <input type="radio" name="color-{{ product.id }}" value="{{ hex }}" id="color-{{ product.id }}-{{ hex }}" style="display: none;">
+                        <label for="color-{{ product.id }}-{{ hex }}" style="
+                            background-color: {{ namec.hex }};
+                            width: 20px;
+                            height: 20px;
+                            display: inline-block;
+                            border-radius: 50%; /* Робить форму круглою */
+                            border: 2px solid #ccc; /* Додає рамку для видимості */
+                            cursor: pointer;
+                        "></label>
+                    {% endfor %}
+                </form>
+
+
+                <!-- Кнопка додавання до кошика -->
+                <button class="add-to-cart" data-id="{{ product.id }}">Додати в кошик</button>
+            </div>
+        {% endfor %}
+    </section>
+
+    <!-- JavaScript код -->
+    <script>
+        document.querySelectorAll(".product").forEach(productDiv => {
+            const productId = productDiv.querySelector(".add-to-cart").dataset.id;
+            const colorInputs = productDiv.querySelectorAll(`input[name='color-${productId}']`);
+            const addToCartBtn = productDiv.querySelector(".add-to-cart");
+            const titleEl = document.getElementById(`product-title-${productId}`);
+            const colorData = {{ colors | tojson }};
+
+            const defaultColor = Object.keys(colorData)[0];
+            const defaultColorName = colorData[defaultColor]?.name || "Білий";
+            let selectedColor = defaultColor;
+
+            // 🔹 Створюємо текст і маркер як окремі елементи
+            const titleText = document.createElement("span");
+            titleText.textContent = `Свічка #${productId}-1 (${defaultColorName})`;
+
+            const colorMarker = document.createElement("label");
+            colorMarker.setAttribute("style", `
+                background-color: ${defaultColor};
+                width: 20px;
+                height: 20px;
+                display: inline-block;
+                border-radius: 50%;
+                border: 2px solid #ccc;
+                cursor: pointer;
+                margin-left: 8px;
+                vertical-align: middle;
+            `);
+            colorMarker.setAttribute("for", `color-${productId}-${defaultColor}`);
+
+            titleEl.appendChild(titleText);
+            titleEl.appendChild(colorMarker);
+
+            // 🔹 Встановлюємо білий як початковий обраний
+            const defaultInput = productDiv.querySelector(`input[name='color-${productId}'][value='${defaultColor}']`);
+            if (defaultInput) defaultInput.checked = true;
+
+            // 🔹 При зміні кольору — оновлюємо текст і колір маркера
+            colorInputs.forEach(input => {
+                input.addEventListener("change", () => {
+                    selectedColor = input.value;
+                    const colorName = colorData[selectedColor]?.name || selectedColor;
+
+                    titleText.textContent = `Свічка ${productId}-${selectedColor} (${colorName})`;
+                    const newHex = colorData[selectedColor]?.hex || "#ffffff";
+                    colorMarker.style.backgroundColor = newHex;
+
+                    colorMarker.setAttribute("for", `color-${productId}-${selectedColor}`);
+
+                    titleEl.classList.add("pulse");
+                    setTimeout(() => titleEl.classList.remove("pulse"), 500);
+                });
+            });
+
+            // 🔹 Обробка додавання в кошик
+            addToCartBtn.addEventListener("click", () => {
+                const selectedInput = productDiv.querySelector(`input[name='color-${productId}']:checked`);
+                const quantityInput = productDiv.querySelector(`input[name='quantity-${productId}']`);
+
+                if (!selectedInput) {
+                    alert("Будь ласка, оберіть колір перед додаванням у кошик.");
+                    return;
+                }
+
+                const color = selectedInput.value;
+                const quantity = quantityInput ? parseInt(quantityInput.value, 10) : 1;
+
+                addToCartBtn.classList.add("btn-warning", "pulse");
+                setTimeout(() => {
+                    addToCartBtn.classList.remove("btn-warning", "pulse");
+                    addToCartBtn.classList.add("btn-primary");
+                }, 500);
+
+                fetch("/add-to-cart", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        id: productId,
+                        color_id: selectedColor,
+                        color_name: colorData[selectedColor]?.name || "Невідомий колір",
+                        color_hex: colorData[selectedColor]?.hex,
+                        quantity: quantity
+                    })
+                })
+                .then(response => response.json())
+                .then(data => console.log("Оновлений кошик:", data))
+                .catch(error => console.error("Помилка додавання в кошик:", error));
+            });
+        });
+</script>
+
+</body>
+</html>

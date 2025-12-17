@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Відгуки</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+</head>
+<body>
+    <h1>Відгуки</h1>
+
+    <form method="POST" action="/reviews">
+        <textarea name="review" placeholder="Ваш відгук..." required></textarea>
+        <button type="submit">Надіслати</button>
+    </form>
+
+    <h2>Усі відгуки:</h2>
+    <ul>
+        {% for r in reviews %}
+            <li><strong>{{ r.date if r.date else "" }}</strong> {{ r.review }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

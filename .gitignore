@@ -1,0 +1,4 @@
+configsite.py
+.venv/
+.idea/
+static/favicon

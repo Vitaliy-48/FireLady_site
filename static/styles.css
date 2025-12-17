@@ -1,0 +1,90 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #FDF5E6;
+    text-align: center;
+    padding-top: 120px; /* Або стільки, скільки висота шапки */
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #ffcc99; /* Або колір твоєї шапки */
+    z-index: 1000; /* Щоб шапка була поверх усього */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Для візуальної чіткості */
+}
+
+#ffcc99;
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+.product {
+    border: 1px solid #ccc;
+    padding: 15px;
+    display: inline-block;
+    margin: 10px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.product img {
+    max-width: 100%;
+    height: auto;
+}
+
+.color-picker {
+    display: flex;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.color-option {
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    display: inline
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+    text-align: center;
+}
+#checkout-items {
+    list-style-type: none;
+    padding: 0;
+}
+
+#checkout-items li {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 5px;
+}
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.7; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.pulse {
+    animation: pulse 0.5s ease-in-out;
+}
+@keyframes pulse-title {
+  0%   { transform: scale(1); color: inherit; }
+  30%  { transform: scale(1.15); color: #ff6600; }
+  70%  { transform: scale(0.95); }
+  100% { transform: scale(1); color: inherit; }
+}
+
+.pulse {
+  animation: pulse-title 0.5s ease-in-out;
+}

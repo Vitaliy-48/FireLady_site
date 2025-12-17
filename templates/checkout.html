@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Оформлення замовлення</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <header>
+        <h1>Кошик</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Головна</a></li>
+                <li><a href="/catalog">Каталог</a></li>
+            </ul>
+        </nav>
+    </header>
+
+
+    <section id="cart">
+        <h3>Вибрані товари:</h3>
+        <ul id="checkout-items">
+            {% for product in cart %}
+            <li>
+                <img src="{{ url_for('static', filename='images/' + product.image) }}" width="50">
+                <p id="product-title-{{ product.id }}"></p>
+                <p>{{ product.price }} грн</p>
+                Свічка #{{ product.id }}-{{ product.color_id }} ({{ product.color_name }})
+                <span style="display: inline-block;
+                            width: 20px;
+                            height: 20px;
+                            background-color: {{ product.color_hex }};
+                            border-radius: 50%;
+                            border: 2px solid #ccc;
+                            cursor: pointer;
+                            margin-left: 8px;
+                            vertical-align: middle;"></span>
+                <span>(x {{ product.quantity }} шт.)</span>
+                <form action="/remove-item" method="POST" style="display:inline;">
+                    <input type="hidden" name="id" value="{{ product.id }}">
+                    <input type="hidden" name="color_id" value="{{ product.color_id }}">
+                    <button type="submit" class="btn btn-outline-danger btn-sm">🗑️ Видалити</button>
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
+        <p><strong>Загальна сума:</strong> {{ total }} грн</p>  <!-- Використовуємо `total` з Flask -->
+    </section>
+
+    <section id="order">
+        <h2>Оформити замовлення</h2>
+        <p><strong>Номер замовлення:</strong> {{ order_id }}</p>
+        <form id="order-form" action="/order" method="POST">
+            <input type="hidden" name="order_id" value="{{ order_id }}">
+            <label>Ваше ім'я:</label>
+            <input type="text" name="name" required>
+
+            <label>Телефон:</label>
+            <input type="text" name="phone" required>
+
+            <button type="submit" class="btn btn-primary">Замовити</button>
+        </form>
+    </section>
+
+
+</body>
+</html>

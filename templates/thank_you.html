@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Thank_you</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+</head>
+<body>
+    <h2>Дякуємо за замовлення!</h2>
+        {% if last_order %}
+            <p>Номер замовлення: <strong>{{ last_order.order_id }}</strong></p>
+            <h4>Ваше замовлення:</h4>
+            <table class="table table-sm w-auto">
+                <tbody>
+                    {% for item in last_order["items"] %}
+                        <tr>
+                            <td>🕯 Свічка #{{ item.id }}-{{ item.color_id }}</td>
+                            <td>({{ item.color_name }})</td>
+                            <td class="text-end">{{ item.quantity }} шт.</td>
+                        </tr>
+                        {% endfor %}
+                  </tbody>
+            </table>
+        {% else %}
+            <p>Немає даних про останнє замовлення.</p>
+        {% endif %}
+    <br><br>
+    <button onclick="window.print()" class="btn btn-outline-secondary">
+          Зберегти або роздрукувати
+    </button>
+    <br><br>
+    <a href="{{ url_for('home') }}">Повернутись на головну</a></body>
+</html>
