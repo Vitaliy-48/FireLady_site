@@ -38,27 +38,27 @@
 
 ⚙️ Налаштування
 
-Клонувати репозиторій
+1. Клонувати репозиторій
 
 git clone https://github.com/yourname/yourrepo.git
 cd yourrepo
 
-Створити віртуальне середовище
+2. Створити віртуальне середовище
 
 python -m venv .venv
 .venv\Scripts\activate  # Windows
 
-Встановити залежності
+3. Встановити залежності
 
 pip install -r requirements.txt
 
-Створити файл configsite.py
+4. Створити файл configsite.py
 
 MY_BOT_TOKEN = "your_telegram_bot_token"
 MY_CHAT_ID = "your_chat_id"
 MY_SECRET_KEY = "your_flask_secret_key"
 
-Запустити додаток
+5. Запустити додаток
 
 python app.py
 
