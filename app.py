@@ -1,12 +1,21 @@
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify, Response
 from datetime import datetime
-from configsite import MY_BOT_TOKEN, MY_CHAT_ID, MY_SECRET_KEY
+from dotenv import load_dotenv
 import requests
 import os
 import json
 import csv
 
+# 🔹 Завантажуємо змінні з .env
+load_dotenv()
+
 app = Flask(__name__, static_folder="static")
+
+# 🔹 Беремо значення з .env
+MY_BOT_TOKEN = os.getenv("MY_BOT_TOKEN")
+MY_CHAT_ID = os.getenv("MY_CHAT_ID")
+MY_SECRET_KEY = os.getenv("MY_SECRET_KEY")
+
 app.secret_key = MY_SECRET_KEY  # Для збереження даних у сесії
 
 
