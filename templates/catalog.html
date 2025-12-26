@@ -147,7 +147,15 @@
                 .catch(error => console.error("Помилка додавання в кошик:", error));
             });
         });
-</script>
+
+        // 🔹 блок обробки всіх полів кількості (input[type=number])
+
+        document.querySelectorAll("input[type=number]").forEach(input => {
+            input.addEventListener("mouseleave", () => {
+                input.blur(); // знімає фокус → синій контур пропадає
+            });
+        });
+    </script>
 
 </body>
 </html>

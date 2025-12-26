@@ -1,47 +1,51 @@
+/* 🔹 Базові стилі для сторінки */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #FDF5E6;
-    text-align: center;
-    padding-top: 120px; /* Або стільки, скільки висота шапки */
+    font-family: Arial, sans-serif;      /* Шрифт */
+    background-color: #FDF5E6;           /* Кремовий фон */
+    text-align: center;                  /* Вирівнювання тексту */
+    padding-top: 120px;                  /* Відступ зверху під шапку */
 }
 
+/* 🔹 Шапка сайту */
 header {
-    position: fixed;
+    position: fixed;                     /* Фіксована позиція */
     top: 0;
     left: 0;
-    width: 100%;
-    background-color: #ffcc99; /* Або колір твоєї шапки */
-    z-index: 1000; /* Щоб шапка була поверх усього */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Для візуальної чіткості */
+    width: 100%;                         /* На всю ширину */
+    background-color: #ffcc99;           /* Колір шапки */
+    z-index: 1000;                       /* Поверх інших елементів */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Легка тінь */
 }
 
-#ffcc99;
+/* 🔹 Меню навігації */
 nav ul {
-    list-style: none;
+    list-style: none;                    /* Без маркерів */
     padding: 0;
 }
 
 nav ul li {
-    display: inline;
+    display: inline;                     /* Горизонтальне меню */
     margin: 0 15px;
 }
 
+/* 🔹 Карточка продукту */
 .product {
-    border: 1px solid #ccc;
+    border: 1px solid #ccc;              /* Сіра рамка */
     padding: 15px;
     display: inline-block;
     margin: 10px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Тінь */
 }
 
 .product img {
-    max-width: 100%;
+    max-width: 100%;                     /* Адаптивне зображення */
     height: auto;
 }
 
+/* 🔹 Вибір кольору */
 .color-picker {
     display: flex;
-    gap: 5px;
+    gap: 5px;                            /* Відступи між кольорами */
     margin-top: 10px;
 }
 
@@ -51,14 +55,17 @@ nav ul li {
     border-radius: 5px;
     cursor: pointer;
     border: 1px solid #ccc;
-    display: inline
+    display: inline-block;               /* Щоб працювали width/height */
 }
 
+/* 🔹 Контейнер */
 .container {
     max-width: 800px;
     margin: auto;
     text-align: center;
 }
+
+/* 🔹 Список товарів у кошику */
 #checkout-items {
     list-style-type: none;
     padding: 0;
@@ -69,22 +76,48 @@ nav ul li {
     padding: 10px;
     margin-bottom: 5px;
 }
+
+/* ========================= */
+/* 🔹 Анімації */
+/* ========================= */
+
+/* Пульс для кнопок */
 @keyframes pulse {
     0% { transform: scale(1); opacity: 1; }
     50% { transform: scale(1.1); opacity: 0.7; }
     100% { transform: scale(1); opacity: 1; }
 }
-
 .pulse {
     animation: pulse 0.5s ease-in-out;
 }
+
+/* Пульс для заголовків */
 @keyframes pulse-title {
-  0%   { transform: scale(1); color: inherit; }
-  30%  { transform: scale(1.15); color: #ff6600; }
-  70%  { transform: scale(0.95); }
-  100% { transform: scale(1); color: inherit; }
+    0%   { transform: scale(1); color: inherit; }
+    30%  { transform: scale(1.15); color: #ff6600; }
+    70%  { transform: scale(0.95); }
+    100% { transform: scale(1); color: inherit; }
+}
+.pulse-title {
+    animation: pulse-title 0.5s ease-in-out;
 }
 
-.pulse {
-  animation: pulse-title 0.5s ease-in-out;
+/* Пульс для інпутів кількості */
+@keyframes pulse-input {
+    0%   { transform: scale(1); box-shadow: 0 0 0px #007bff; }
+    30%  { transform: scale(1.05); box-shadow: 0 0 6px #007bff; }
+    70%  { transform: scale(0.98); box-shadow: 0 0 3px #007bff; }
+    100% { transform: scale(1); box-shadow: 0 0 3px #007bff; } /* залишає синій контур */
+}
+
+/* 🔹 Стилі для інпутів кількості */
+input[type=number] {
+    border: 1px solid #ccc;
+    outline: none;                       /* Прибираємо стандартний outline */
+}
+
+input[type=number]:focus {
+    border: 1px solid #007bff;           /* Синя рамка */
+    box-shadow: 0 0 3px #007bff;         /* Легка синя тінь */
+    animation: pulse-input 0.5s ease-in-out; /* Коротке миготіння */
 }
